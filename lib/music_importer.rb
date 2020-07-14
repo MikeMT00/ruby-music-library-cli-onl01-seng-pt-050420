@@ -1,16 +1,29 @@
+require "pry"
 class MusicImporter
-    attr_accessor :path, :mp3_files
+  attr_accessor :path
 
-    def initialize(file_path)
-        @path = file_path
-        @mp3_files = Dir.glob("#{@path}/*.mp3").map {|f| f.gsub("#{@path}/", "")}
-    end
 
-    def files
-        @mp3_files.each {|s| s.gsub(".mp3/""")}
-    end
 
-    def import
-        files.each {|s| Song.create_from_filename(s)}
+  def initialize(path)
+    @path = path
+
+  end
+
+
+  def files
+    file_array = Dir.glob("#{path}/*.mp3")
+    file_array.collect do |file|
+      file.slice!("#{path}/")
+      file
+    
     end
+  end
+
+  def import
+    files.each do |filename|
+      Song.create_from_filename(filename)
+    end
+  end
+
+
 end
