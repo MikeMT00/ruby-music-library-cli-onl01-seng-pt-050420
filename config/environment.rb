@@ -4,4 +4,4 @@ Bundler.require
 module Concerns
 end
 
-require_relative '../lib'
+require_all 'lib'
